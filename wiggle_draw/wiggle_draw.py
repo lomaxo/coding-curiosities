@@ -57,7 +57,7 @@ def wiggle_image(
     return output_image
 
 
-original_img = Image.open("OTL.jpg")
+original_img = Image.open("OTL2.jpg")
 # original_img.show()
 w, h = original_img.size
 original_img = original_img.resize((w//2, h//2))
@@ -69,4 +69,4 @@ original_img = original_img.resize((w//2, h//2))
 new_image = wiggle_image(original_img, rotations=20, wiggle_freq=1)
 
 new_image.show()
-# new_image.save('temp.png')
+# new_image.save('example1.png')
