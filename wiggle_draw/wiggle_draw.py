@@ -18,7 +18,7 @@ def wiggle_image(
     # modified_img.show()
 
 
-    output_image = Image.new('RGB', original_img.size)
+    output_image = Image.new('RGB', original_img.size, color=(0,0,0))
     out_pixels = output_image.load()
     width, height = output_image.size
 
@@ -69,3 +69,4 @@ original_img = original_img.resize((w//2, h//2))
 new_image = wiggle_image(original_img, rotations=20, wiggle_freq=1)
 
 new_image.show()
+# new_image.save('temp.png')
