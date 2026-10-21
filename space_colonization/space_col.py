@@ -2,6 +2,7 @@ import cv2 as cv
 import random
 import numpy as np
 from numpy.typing import ArrayLike
+import math
 
 class Vector2D:
     def __init__(self, x, y):
@@ -82,15 +83,21 @@ class Sim:
         self.nodes = []
         self.running = True
 
-        self.kill_dist = 20
-        self.attractor_range = 650
-        self.speed = 5
+        self.kill_dist = 40
+        self.attractor_range = 1000
+        self.speed = 20
 
         self.wiggle = 5
 
         for i in range(starting_attractors):
-            new_pos = Vector2D(random.randrange(self.width), random.randrange(self.height//2))
+            # new_pos = Vector2D(random.randrange(self.width), random.randrange(self.height//2))
+            r = random.randrange(self.width//3)
+            a = random.uniform(0, 2 * math.pi)
+            x = r * math.cos(a) + self.width //2
+            y = r * math.sin(a) + self.height // 3
+            new_pos = Vector2D(x, y)
             self.attractors.append(Attractor(new_pos))
+
         
         starting_pos = Vector2D(self.width //2, self.height - 20)
         self.nodes.append(Node(starting_pos))
@@ -137,7 +144,7 @@ class Sim:
                 wiggle = Vector2D(random.randint(-self.wiggle//2, self.wiggle//2), random.randint(-self.wiggle//2, self.wiggle//2))
                 new_pos = n.pos + distance_sum.normalised() * self.speed + wiggle
                 new_n = Node(Vector2D(new_pos.x, new_pos.y))
-                new_n.set_size(n.get_size() * 0.99)
+                new_n.set_size(n.get_size() * 0.95)
                 new_n.parent = n
                 new_nodes.append(new_n)
             # else:
@@ -159,7 +166,7 @@ class Sim:
         if cv.waitKey(1) == 27:
             self.running = False
 
-sim = Sim(1000, 1000, 100)
+sim = Sim(1200, 1200, 600)
 while sim.running:
     sim.update()
     sim.draw()    
