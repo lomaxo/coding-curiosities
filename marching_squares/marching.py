@@ -90,38 +90,50 @@ def add_contours(iso_value, input_img, output_img, colour=(255,0,0), grid_size=4
 
 
 if __name__ == "__main__":
-    from noise import pnoise2
+    # from noise import pnoise3
+    from perlin_numpy import generate_fractal_noise_3d
 
-    width, height = 500, 500
-    scale = 200
-    octaves = 2
-    persistence = 1.5
-    lacunarity = 2.0
+    width, height, depth = 256, 256, 256
+    scale = 2
+    octaves = 1
+    persistence = 0.5
+    lacunarity = 2
 
     img = np.zeros((width, height), dtype=np.float32)
 
-    for y in range(height):
-        for x in range(width):
-            val = pnoise2( 
-                    x / scale,
-                    y / scale,
-                    octaves=octaves,
-                    persistence=persistence,
-                    lacunarity=lacunarity,
-                    repeatx=width,
-                    repeaty=height,
-                    base=0
-                )
-            img[y, x] = val
+    # for y in range(height):
+    #     for x in range(width):
+    #         val = pnoise2( 
+    #                 x / scale,
+    #                 y / scale,
+    #                 octaves=octaves,
+    #                 persistence=persistence,
+    #                 lacunarity=lacunarity,
+    #                 repeatx=width,
+    #                 repeaty=height,
+    #                 base=0
+    #             )
+    #         img[y, x] = val
+    key = 0
+    z = 1
+    noise_3d = generate_fractal_noise_3d((width, height, depth), (scale, scale, scale), octaves=2, persistence=0.5, lacunarity=2)
 
-    normalized_img = cv.normalize(
-        img, None, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U
-    )
+    while key != 27:
+        # img = np.zeros((width, height), dtype=np.float32)
+        img = noise_3d[: , : , z % depth]
 
-    contour_img = normalized_img.copy() #  np.zeros(normalized_img.shape, dtype=np.uint8)    
-    contour_img = cv.cvtColor(contour_img, cv.COLOR_GRAY2RGB)
+        normalized_img = cv.normalize(
+            img, None, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U
+        )
+        cv.imshow("Noise", normalized_img)
+        # cv.imshow("Noise", noise_3d)
+        # contour_img = normalized_img.copy() #  np.zeros(normalized_img.shape, dtype=np.uint8)    
+        contour_img = np.zeros(normalized_img.shape, dtype=np.uint8)    
+        contour_img = cv.cvtColor(contour_img, cv.COLOR_GRAY2RGB)
 
-    for h in range(0, 255, 20):
-        contour_img = add_contours(h, normalized_img, contour_img, (h//2,h,0), 5)
-    cv.imshow("Noise", contour_img)
-    cv.waitKey(0)
+        for h in range(0, 255, 20):
+            contour_img = add_contours(h, normalized_img, contour_img, (h//2,h,0), 5)
+        cv.imshow("Contours", contour_img)
+        key = cv.waitKey(1)
+        z += 1
+        # persistence += 0.001
