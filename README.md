@@ -3,11 +3,13 @@
 ## Wiggle Draw
 Inspired by Sebastian Lague's cat (as shown in "[I Tried Making a Pen Plotter to Draw Maps of the Moon](https://www.youtube.com/watch?v=qyNWDzO6kKQ)"):
 
-#### Sebastian Lague's version, drawn using his robotic plotter:
-![Sebastian Lague's Cat](wiggle_draw/cat_sebastian_lague.jpg)
+Sebastian Lague's version, drawn using his robotic plotter
 
-#### My version:
-![Wiggle Draw](wiggle_draw/example1.png)
+<img src="wiggle_draw/cat_sebastian_lague.jpg" alt="Sebastian Lague's Cat" width="400" height="400">
+
+...and my version
+
+<img src="wiggle_draw/example1.png" alt="Wiggle Draw" width="400" height="400">
 
 ## Marching Squares
 Using the marching squares algorithm to draw isolines (contour lines) for a perlin noise pattern
@@ -15,7 +17,6 @@ Using the marching squares algorithm to draw isolines (contour lines) for a perl
 ![perline noise and isolines](marching_squares/contours1.png)
 
 ### More Info
-
 - Wikipedia article: https://en.wikipedia.org/wiki/Marching_squares
 
 - The Programming Chaos YouTube channel: [Programming The Marching Squares Algorithm](https://www.youtube.com/watch?v=P45S7-OTrSE)
