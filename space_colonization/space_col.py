@@ -4,6 +4,13 @@ import numpy as np
 from numpy.typing import ArrayLike
 import math
 
+def colour_lerp(col1: tuple[int, int, int], col2: tuple[int, int, int], value: float) -> tuple[int, int, int]:
+    new_col = [0,0,0]
+    t = value / 255
+    for i in range(3):
+        new_col[i] = int(col1[i]*(1-t) + col2[i] * t)
+    return tuple(new_col)
+
 class Vector2D:
     def __init__(self, x, y):
         self.x: float = x
@@ -34,8 +41,6 @@ class Vector2D:
     def __repr__(self):
         return f'({self.x}, {self.y})'
 
-
-
 class Attractor:
     def __init__(self, pos: Vector2D):
         self.pos = pos
@@ -50,6 +55,7 @@ class Node:
         self.attractors: list(Attractor) = []
         self._size = 30
         self.parent = None
+        self.colour_val = 0
 
     def set_size(self, size):
         if size >= 1:
@@ -63,7 +69,7 @@ class Node:
     def draw(self, img: ArrayLike):
         # cv.circle(img, (int(self.pos.x), int(self.pos.y)), int(self.size), (0,100,0))
         if self.parent:
-            cv.line(img, (int(self.pos.x), int(self.pos.y)), (int(self.parent.pos.x), int(self.parent.pos.y)), (0,100,0), int(self._size))
+            cv.line(img, (int(self.pos.x), int(self.pos.y)), (int(self.parent.pos.x), int(self.parent.pos.y)), colour_lerp((31,22,21),(63, 163, 20), self.colour_val), int(self._size))
 
     def add_attractor(self, a: Attractor):
         self.attractors.append(a)
@@ -83,11 +89,11 @@ class Sim:
         self.nodes = []
         self.running = True
 
-        self.kill_dist = 40
-        self.attractor_range = 1000
+        self.kill_dist = 30
+        self.attractor_range = 500
         self.speed = 20
 
-        self.wiggle = 5
+        self.wiggle = 1
 
         for i in range(starting_attractors):
             # new_pos = Vector2D(random.randrange(self.width), random.randrange(self.height//2))
@@ -146,6 +152,8 @@ class Sim:
                 new_n = Node(Vector2D(new_pos.x, new_pos.y))
                 new_n.set_size(n.get_size() * 0.95)
                 new_n.parent = n
+                new_n.colour_val = n.colour_val + 3
+                # print(new_n.colour_val*3, colour_lerp((0,255,0),(255, 0, 0), new_n.colour_val*3))
                 new_nodes.append(new_n)
             # else:
             #     n.set_size(10)
@@ -166,8 +174,10 @@ class Sim:
         if cv.waitKey(1) == 27:
             self.running = False
 
-sim = Sim(1200, 1200, 600)
+sim = Sim(1000, 1000, 400)
 while sim.running:
     sim.update()
     sim.draw()    
 
+# for i in range(255):
+#     print(colour_lerp((0,255,0),(255, 0, 0), i))

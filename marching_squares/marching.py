@@ -90,7 +90,7 @@ def add_contours(iso_value, input_img, output_img, colour=(255,0,0), grid_size=4
 
 
 if __name__ == "__main__":
-    # from noise import pnoise3
+    from noise import pnoise3
     from perlin_numpy import generate_fractal_noise_3d
 
     width, height, depth = 256, 256, 256
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     #         img[y, x] = val
     key = 0
     z = 1
-    noise_3d = generate_fractal_noise_3d((width, height, depth), (scale, scale, scale), octaves=2, persistence=0.5, lacunarity=2)
+    noise_3d = generate_fractal_noise_3d((width, height, depth), (scale, scale, scale), octaves=octaves, persistence=persistence, lacunarity=2)
 
     while key != 27:
         # img = np.zeros((width, height), dtype=np.float32)
