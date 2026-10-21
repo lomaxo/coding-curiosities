@@ -1,4 +1,4 @@
-# Various Python Experiments
+# Coding Curiosities
 
 ## Wiggle Draw
 Inspired by Sebastian Lague's cat (as shown in "[I Tried Making a Pen Plotter to Draw Maps of the Moon](https://www.youtube.com/watch?v=qyNWDzO6kKQ)"):
