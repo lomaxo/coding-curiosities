@@ -138,8 +138,9 @@ test_expresions = [
     ("1+2*3", 7),
     ("(1+2)*3", 9),
     ("2^3^2", 512),
-    ("5-2-1", 2)
+    ("5-2-1", 2),
+    ("(1 + 2) * 3^2", 27)
 ]
 
 for expression, answer in test_expresions:
-    test_expr(expression, answer, False)
+    test_expr(expression, answer, True)
